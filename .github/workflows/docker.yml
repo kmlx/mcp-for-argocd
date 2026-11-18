@@ -6,6 +6,7 @@ on:
       - main
   release:
     types: [published]
+  workflow_dispatch:
 
 env:
   GHCR_REGISTRY: ghcr.io
@@ -50,7 +51,7 @@ jobs:
           images: |
             ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=latest,enable=${{ github.event_name == 'push' }}
+            type=raw,value=latest,enable=${{ github.event_name != 'release' }}
             type=ref,event=tag
             type=semver,pattern={{version}},enable=${{ github.event_name == 'release' }}
 
